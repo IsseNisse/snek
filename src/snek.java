@@ -9,6 +9,8 @@ public class snek extends Canvas {
     int width = 800;
     int height = 600;
     BufferStrategy bs;
+    int x = 100;
+    int y = 100;
 
     public snek() {
         setSize(width,height);
@@ -26,15 +28,20 @@ public class snek extends Canvas {
             createBufferStrategy(1);
             return;
         }
+        update();
         draw(g);
         g.dispose();
         bs.show();
         repaint();
     }
 
+    public void update () {
+        x++;
+    }
+
     public void draw (Graphics g) {
         g.setColor(new Color(0x000));
-        g.fillRect(100, 200 ,20, 15);
+        g.fillRect(x, y+100 ,20, 15);
     }
 
     public static void main(String[] args) {
@@ -49,13 +56,16 @@ public class snek extends Canvas {
 
         @Override
         public void keyPressed(KeyEvent keyEvent) {
-            if (keyEvent.getKeyChar()=='a') {
+            if (keyEvent.getKeyChar()=='\n') {
+
 
             } else if (keyEvent.getKeyChar()=='d') {
 
             } else if (keyEvent.getKeyChar()=='w') {
 
             } else if (keyEvent.getKeyChar()=='s') {
+
+            } else if (keyEvent.getKeyChar()=='a') {
 
             }
             repaint();
