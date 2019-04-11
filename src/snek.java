@@ -3,19 +3,27 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 public class snek extends Canvas implements Runnable {
 
+    Random R = new Random();
     int width = 800;
     int height = 600;
     BufferStrategy bs;
     int x = 100;
     int y = 100;
+    int x1;
+    int y1;
     int vx;
     int vy;
+    Rectangle target;
+    Rectangle striker;
     private Thread thread;
     private boolean running = false;
 
+
+    //Ritar ut fönstret
     public snek() {
         setSize(width,height);
         JFrame frame = new JFrame("Snek");
@@ -24,8 +32,14 @@ public class snek extends Canvas implements Runnable {
         frame.pack();
         frame.setVisible(true);
         frame.addKeyListener(new KL());
+        x1 = R.nextInt(790);
+        y1 = R.nextInt(590);
+
+        target = new Rectangle(R.nextInt(width-11), R.nextInt(height-11), 10,10);
+        striker = new Rectangle(width-16, height-16,15,15);
     }
 
+    //Fixar buffret
     public void  render() {
         bs = getBufferStrategy();
         if (bs == null) {
@@ -39,16 +53,28 @@ public class snek extends Canvas implements Runnable {
         bs.show();
     }
 
+    //Gör så att ormen rör sig
     private void update () {
-        x+= vx;
-        y+= vy;
+        striker.x+= vx;
+        striker.y+= vy;
     }
 
+    //Ritar ut det grafiska i fönstret t.ex ormen
     public void draw (Graphics g) {
         g.setColor(new Color(0xFFFFFF));
         g.fillRect(0,0,width,height);
+        frukt(g);
+        ormen(g);
+    }
+
+    private void frukt(Graphics g) {
+        g.setColor(new Color(0x9990000));
+        g.fillOval(x1, y1, 10, 10);
+    }
+
+    private void ormen(Graphics g) {
         g.setColor(new Color(0x000));
-        g.fillRect(x, y+100 ,15, 15);
+        g.fillRect(striker.x, striker.y ,15, 15);
     }
 
     public synchronized void start() {
@@ -67,6 +93,7 @@ public class snek extends Canvas implements Runnable {
     }
 
 
+    //FPS
     @Override
     public void run() {
         double ns = 1000000000.0 / 60.0;
