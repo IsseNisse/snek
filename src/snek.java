@@ -11,6 +11,8 @@ public class snek extends Canvas implements Runnable {
     BufferStrategy bs;
     int x = 100;
     int y = 100;
+    int vx;
+    int vy;
     private Thread thread;
     private boolean running = false;
 
@@ -38,15 +40,15 @@ public class snek extends Canvas implements Runnable {
     }
 
     private void update () {
-        x++;
-
+        x+= vx;
+        y+= vy;
     }
 
     public void draw (Graphics g) {
         g.setColor(new Color(0xFFFFFF));
         g.fillRect(0,0,width,height);
         g.setColor(new Color(0x000));
-        g.fillRect(x, y+100 ,20, 15);
+        g.fillRect(x, y+100 ,15, 15);
     }
 
     public synchronized void start() {
@@ -106,15 +108,36 @@ public class snek extends Canvas implements Runnable {
         @Override
         public void keyPressed(KeyEvent keyEvent) {
             if (keyEvent.getKeyChar()=='\n') {
-
-
+                vx = 1;
             } else if (keyEvent.getKeyChar()=='d') {
+                if (vx == -1){
 
+                } else {
+                    vx = 1;
+                    vy = 0;
+                }
             } else if (keyEvent.getKeyChar()=='w') {
+                if (vy == 1) {
 
+                } else {
+                    vy = -1;
+                    vx=0;
+                }
             } else if (keyEvent.getKeyChar()=='s') {
+                if (vy == -1) {
+
+                } else {
+                    vy = 1;
+                    vx=0;
+                }
 
             } else if (keyEvent.getKeyChar()=='a') {
+                if (vx == 1) {
+
+                } else {
+                    vx = -1;
+                    vy = 0;
+                }
 
             }
 //            repaint();
