@@ -32,8 +32,6 @@ public class snek extends Canvas implements Runnable {
         frame.pack();
         frame.setVisible(true);
         frame.addKeyListener(new KL());
-        x1 = R.nextInt(790);
-        y1 = R.nextInt(590);
 
         target = new Rectangle(R.nextInt(width-11), R.nextInt(height-11), 10,10);
         striker = new Rectangle(width-16, height-16,15,15);
@@ -57,6 +55,10 @@ public class snek extends Canvas implements Runnable {
     private void update () {
         striker.x+= vx;
         striker.y+= vy;
+        if (striker.intersects(target)) {
+            target.x = R.nextInt(width-11);
+            target.y = R.nextInt(height-11);
+        }
     }
 
     //Ritar ut det grafiska i fönstret t.ex ormen
@@ -69,7 +71,7 @@ public class snek extends Canvas implements Runnable {
 
     private void frukt(Graphics g) {
         g.setColor(new Color(0x9990000));
-        g.fillOval(x1, y1, 10, 10);
+        g.fillOval(target.x, target.y, 10, 10);
     }
 
     private void ormen(Graphics g) {
@@ -134,35 +136,33 @@ public class snek extends Canvas implements Runnable {
 
         @Override
         public void keyPressed(KeyEvent keyEvent) {
-            if (keyEvent.getKeyChar()=='\n') {
-                vx = 1;
-            } else if (keyEvent.getKeyChar()=='d') {
-                if (vx == -1){
+             if (keyEvent.getKeyChar()=='d') {
+                if (vx == -2){
 
                 } else {
-                    vx = 1;
+                    vx = 2;
                     vy = 0;
                 }
             } else if (keyEvent.getKeyChar()=='w') {
-                if (vy == 1) {
+                if (vy == 2) {
 
                 } else {
-                    vy = -1;
+                    vy = -2;
                     vx=0;
                 }
             } else if (keyEvent.getKeyChar()=='s') {
-                if (vy == -1) {
+                if (vy == -2) {
 
                 } else {
-                    vy = 1;
+                    vy = 2;
                     vx=0;
                 }
 
             } else if (keyEvent.getKeyChar()=='a') {
-                if (vx == 1) {
+                if (vx == 2) {
 
                 } else {
-                    vx = -1;
+                    vx = -2;
                     vy = 0;
                 }
 
